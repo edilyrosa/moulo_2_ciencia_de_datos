@@ -1,0 +1,16 @@
+id,nombre,pais,ciudad,industria,valor_contrato,etapa,fecha_cierre,activo
+1,Acme Corp,CO,Bogotá,Tecnología,4500,cerrado,2024-03-15,True
+2,Beta Inc,MX,Ciudad de México,Retail,2200,negociacion,2024-06-01,True
+3,Gamma SA,CO,Medellín,Manufactura,8100,cerrado,2024-02-28,True
+4,Delta Ltd,AR,Buenos Aires,Tecnología,1500,prospecto,2024-07-15,True
+5,Epsilon SAS,CO,Cali,Retail,950,prospecto,2024-08-01,False
+6,Zeta Corp,MX,Guadalajara,Salud,6700,negociacion,2024-05-20,True
+7,Eta Inc,CL,Santiago,Manufactura,3300,cerrado,2024-01-10,True
+8,Theta SA,CO,Bogotá,Tecnología,12000,cerrado,2024-04-05,True
+9,Iota Ltd,AR,Córdoba,Retail,800,prospecto,2024-09-01,True
+10,Kappa SAS,MX,Monterrey,Salud,5400,negociacion,2024-06-15,True
+11,Lambda Corp,CO,Bogotá,Tecnología,320,prospecto,2024-10-01,False
+12,Mu Inc,CL,Valparaíso,Manufactura,7800,cerrado,2024-03-22,True
+13,Nu SA,AR,Buenos Aires,Tecnología,2900,negociacion,2024-07-01,True
+14,Xi Ltd,CO,Medellín,Salud,4100,cerrado,2024-02-14,True
+15,Omicron Corp,MX,Ciudad de México,Retail,1100,prospecto,2024-08-20,True
