@@ -72,7 +72,8 @@ def crear_estructa_poryecto( base: str = '.') -> Path:
         ruta.mkdir(parents=True, exist_ok=True) #? 2. creamos el directorio
         (ruta/'.gitkeep').touch()               #? 3. creo un archivo vacío para mantener la carpeta en git
         print(f'✅ Creada carpeta: {ruta}')
-
+        # No, no faltó. Al hacer notas.mkdir(parents=True, exist_ok=True) y reportes.mkdir(parents=True, exist_ok=True), 
+        # el argumento parents=True crea automáticamente todos los padres necesarios, incluyendo entrega/.
     for a in ['.env', 'requirements.txt', 'README.md']:
         ruta_archivo = base_path / a #1. creo la ruta
         if not ruta_archivo.exists():
@@ -102,6 +103,8 @@ for archivo in ruta_raw.iterdir():
         print(f'{archivo.name: <35} {tamanio_kb} KB')
 
 #* .glob() → Busca archivos que coincidan con un patrón.
+for csv in ruta_proyecto.glob('**/*.csv'):
+    print(csv)
     # . "**/*.csv" es un patrón glob recursivo:
     # . ** significa "cualquier número de subdirectorios (incluyendo cero)".
     # . *.csv busca archivos con extensión .csv.
@@ -110,27 +113,64 @@ for archivo in ruta_raw.iterdir():
     #? "***/*.csv" → NO es un patrón válido.
 
 
+# ATRB
 # # .suffix → extensión del archivo
 # # .stem   → nombre sin extensión
 # # .parent → carpeta que contiene el archivo
-
+archivo_ejemplo = ruta_raw / 'clientes.csv'
+print(archivo_ejemplo.name)   
+print(archivo_ejemplo.suffix)   
+print(archivo_ejemplo.stem)   
+print(archivo_ejemplo.parent)   
+print(archivo_ejemplo.exists())   
 
 # # ─────────────────────────────────────────────────────────
 # #* PARTE 4: Patrón profesional — rutas relativas al script
 # # ─────────────────────────────────────────────────────────
+print("\n" + "=" * 55)
+print("PARTE 4: Rutas relativas al script (patrón profesional)")
+print("=" * 55)
 
-# print("\n" + "=" * 55)
-# print("PARTE 4: Rutas relativas al script (patrón profesional)")
-# print("=" * 55)
+RAIZ = Path(__file__).parent # me da la carpeta donde se encuentra el script, sin importar desde dónde lo ejecute
 
+RAW_DIR = RAIZ / 'data' / 'raw'
+PROCESSED_DIR = RAIZ / 'data' / 'processed'
+OUP_DIR = RAIZ / 'data' / 'out'
+LOGS_DIR = RAIZ / 'logs'
 
+print("Raíz del proyecto : ", RAIZ)       
+print(f"Datos crudos      : {RAW_DIR}")     
+print(f"Datos procesados  :  {PROCESSED_DIR}")
 
-# print(f"Raíz del proyecto : ")       
-# print(f"Datos crudos      : ")     
-# print(f"Datos procesados  : ")
+def verificar_estructura() -> bool:
+    carperas_criticas = [RAW_DIR, PROCESSED_DIR, LOGS_DIR, Path('D:\csc_dato_ingenio'), 'D:\csc_dato_ingenio']
+    todo_ok = True
+    for carpeta in carperas_criticas:
+        try:
+            if carpeta.exists(): #! aca error cuando no paso un ele TDD Path, sino un string
+                print(f'\n✅ Carpeta existe: {carpeta.relative_to(RAIZ)}')
+            else:
+                print(f'❌ FALTA CARPETA: {carpeta.relative_to(RAIZ)}')
+                todo_ok = False 
+                
+        except PermissionError as e:
+            print(f'❌ ERROR la autorizacion: {e}')
+            todo_ok = False
+            
+        except OSError as e:
+            print(f'❌❌❌ ERROR la autorizacion: {e}')
+            todo_ok = False
+            
+        except ValueError as e:
+            print(f'❌❌❌ ERROR la carpeta {carpeta} No existe: {e}')
+            todo_ok = False
+        except Exception as e: #GENERICO, atrapa tdos los errores
+            print(f'❌ ERROR verificando carpeta: {e}')
+            todo_ok = False
+            
+            
+    return todo_ok
 
-
-
-# print("\n" + "=" * 55)
-# print("¡Lección 1 completada! Revisa las carpetas creadas.")
-# print("=" * 55)
+print('Verificando estructura del proyecto...')
+ok = verificar_estructura()
+print(f'Estructura {'Completa ✅' if ok else 'Incompleta ❌'}' )

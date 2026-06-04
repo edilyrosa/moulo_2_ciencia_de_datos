@@ -1,0 +1,196 @@
+id,nombre,pais,ciudad,industria,valor_contrato,etapa,fecha_cierre,activo
+2,Beta Inc,MX,Ciudad de México,Retail,2200,negociacion,2024-06-01,True
+1,Acme Corp,CO,Bogotá,Tecnología,4500,cerrado,2024-03-15,True
+3,Gamma SA,CO,Medellín,Manufactura,8100,cerrado,2024-02-28,True
+4,Delta Ltd,AR,Buenos Aires,Tecnología,1500,prospecto,2024-07-15,True
+5,Epsilon SAS,CO,Cali,Retail,950,prospecto,2024-08-01,False
+6,Zeta Corp,MX,Guadalajara,Salud,6700,negociacion,2024-05-20,True
+7,Eta Inc,CL,Santiago,Manufactura,3300,cerrado,2024-01-10,True
+8,Theta SA,CO,Bogotá,Tecnología,12000,cerrado,2024-04-05,True
+9,Iota Ltd,AR,Córdoba,Retail,800,prospecto,2024-09-01,True
+10,Kappa SAS,MX,Monterrey,Salud,5400,negociacion,2024-06-15,True
+11,Lambda Corp,CO,Bogotá,Tecnología,320,prospecto,2024-10-01,False
+12,Mu Inc,CL,Valparaíso,Manufactura,7800,cerrado,2024-03-22,True
+13,Nu SA,AR,Buenos Aires,Tecnología,2900,negociacion,2024-07-01,True
+15,Omicron Corp,MX,Ciudad de México,Retail,1100,prospecto,2024-08-20,True
+14,Xi Ltd,CO,Medellín,Salud,4100,cerrado,2024-02-14,True
+
+
+16,Empresa_16,CO,Bogotá,Educación,12500,prospecto,2024-05-12,True
+17,Empresa_17,AR,Buenos Aires,Energía,3400,cerrado,2024-09-23,True
+18,Empresa_18,CL,Santiago,Retail,780,negociacion,2024-11-02,False
+19,Empresa_19,MX,Monterrey,Tecnología,4500,prospecto,2024-07-19,True
+20,Empresa_20,CO,Medellín,Salud,23000,cerrado,2024-03-01,True
+21,Empresa_21,AR,Córdoba,Manufactura,670,negociacion,2024-12-11,False
+22,Empresa_22,CL,Valparaíso,Tecnología,18900,cerrado,2024-01-28,True
+23,Empresa_23,MX,Ciudad de México,Energía,4300,prospecto,2024-08-14,True
+24,Empresa_24,CO,Cali,Educación,9900,cerrado,2024-04-17,True
+25,Empresa_25,AR,Buenos Aires,Retail,2500,negociacion,2024-10-05,True
+26,Empresa_26,CL,Santiago,Salud,13200,prospecto,2024-06-30,False
+27,Empresa_27,MX,Guadalajara,Manufactura,810,cerrado,2024-02-18,True
+28,Empresa_28,CO,Bogotá,Tecnología,4700,negociacion,2024-09-09,True
+29,Empresa_29,AR,Rosario,Energía,5600,cerrado,2024-11-25,True
+30,Empresa_30,CL,Concepción,Retail,3200,prospecto,2024-07-07,False
+31,Empresa_31,MX,Puebla,Salud,10100,cerrado,2024-03-30,True
+32,Empresa_32,CO,Barranquilla,Educación,1800,negociacion,2024-12-01,True
+33,Empresa_33,AR,Mendoza,Tecnología,7500,prospecto,2024-05-18,True
+34,Empresa_34,CL,La Serena,Manufactura,2900,cerrado,2024-10-22,True
+35,Empresa_35,MX,Ciudad de México,Retail,13400,negociacion,2024-08-09,False
+36,Empresa_36,CO,Bogotá,Energía,6200,prospecto,2024-01-14,True
+37,Empresa_37,AR,Buenos Aires,Salud,8700,cerrado,2024-09-27,True
+38,Empresa_38,CL,Santiago,Tecnología,4300,negociacion,2024-11-11,True
+39,Empresa_39,MX,Monterrey,Manufactura,15000,cerrado,2024-04-02,True
+40,Empresa_40,CO,Medellín,Educación,2600,prospecto,2024-06-20,False
+41,Empresa_16,CO,Bogotá,Educación,12500,prospecto,2024-05-12,True
+42,Empresa_17,AR,Buenos Aires,Energía,3400,cerrado,2024-09-23,True
+43,Empresa_18,CL,Santiago,Retail,780,negociacion,2024-11-02,False
+44,Empresa_19,MX,Monterrey,Tecnología,4500,prospecto,2024-07-19,True
+45,Empresa_20,CO,Medellín,Salud,23000,cerrado,2024-03-01,True
+46,Empresa_21,AR,Córdoba,Manufactura,670,negociacion,2024-12-11,False
+47,Empresa_22,CL,Valparaíso,Tecnología,18900,cerrado,2024-01-28,True
+48,Empresa_23,MX,Ciudad de México,Energía,4300,prospecto,2024-08-14,True
+49,Empresa_24,CO,Cali,Educación,9900,cerrado,2024-04-17,True
+50,Empresa_25,AR,Buenos Aires,Retail,2500,negociacion,2024-10-05,True
+51,Empresa_26,CL,Santiago,Salud,13200,prospecto,2024-06-30,False
+52,Empresa_27,MX,Guadalajara,Manufactura,810,cerrado,2024-02-18,True
+53,Empresa_28,CO,Bogotá,Tecnología,4700,negociacion,2024-09-09,True
+54,Empresa_29,AR,Rosario,Energía,5600,cerrado,2024-11-25,True
+55,Empresa_30,CL,Concepción,Retail,3200,prospecto,2024-07-07,False
+56,Empresa_31,MX,Puebla,Salud,10100,cerrado,2024-03-30,True
+57,Empresa_32,CO,Barranquilla,Educación,1800,negociacion,2024-12-01,True
+58,Empresa_33,AR,Mendoza,Tecnología,7500,prospecto,2024-05-18,True
+59,Empresa_34,CL,La Serena,Manufactura,2900,cerrado,2024-10-22,True
+60,Empresa_35,MX,Ciudad de México,Retail,13400,negociacion,2024-08-09,False
+71,Empresa_36,CO,Bogotá,Energía,6200,prospecto,2024-01-14,True
+72,Empresa_37,AR,Buenos Aires,Salud,8700,cerrado,2024-09-27,True
+73,Empresa_38,CL,Santiago,Tecnología,4300,negociacion,2024-11-11,True
+74,Empresa_39,MX,Monterrey,Manufactura,15000,cerrado,2024-04-02,True
+75,Empresa_40,CO,Medellín,Educación,2600,prospecto,2024-06-20,False
+76,Empresa_16,CO,Bogotá,Educación,12500,prospecto,2024-05-12,True
+77,Empresa_17,AR,Buenos Aires,Energía,3400,cerrado,2024-09-23,True
+78,Empresa_18,CL,Santiago,Retail,780,negociacion,2024-11-02,False
+79,Empresa_19,MX,Monterrey,Tecnología,4500,prospecto,2024-07-19,True
+80,Empresa_20,CO,Medellín,Salud,23000,cerrado,2024-03-01,True
+81,Empresa_21,AR,Córdoba,Manufactura,670,negociacion,2024-12-11,False
+82,Empresa_22,CL,Valparaíso,Tecnología,18900,cerrado,2024-01-28,True
+83,Empresa_23,MX,Ciudad de México,Energía,4300,prospecto,2024-08-14,True
+84,Empresa_24,CO,Cali,Educación,9900,cerrado,2024-04-17,True
+85,Empresa_25,AR,Buenos Aires,Retail,2500,negociacion,2024-10-05,True
+86,Empresa_26,CL,Santiago,Salud,13200,prospecto,2024-06-30,False
+87,Empresa_27,MX,Guadalajara,Manufactura,810,cerrado,2024-02-18,True
+88,Empresa_28,CO,Bogotá,Tecnología,4700,negociacion,2024-09-09,True
+89,Empresa_29,AR,Rosario,Energía,5600,cerrado,2024-11-25,True
+90,Empresa_30,CL,Concepción,Retail,3200,prospecto,2024-07-07,False
+91,Empresa_31,MX,Puebla,Salud,10100,cerrado,2024-03-30,True
+92,Empresa_32,CO,Barranquilla,Educación,1800,negociacion,2024-12-01,True
+93,Empresa_33,AR,Mendoza,Tecnología,7500,prospecto,2024-05-18,True
+94,Empresa_34,CL,La Serena,Manufactura,2900,cerrado,2024-10-22,True
+95,Empresa_35,MX,Ciudad de México,Retail,13400,negociacion,2024-08-09,False
+96,Empresa_36,CO,Bogotá,Energía,6200,prospecto,2024-01-14,True
+97,Empresa_37,AR,Buenos Aires,Salud,8700,cerrado,2024-09-27,True
+98,Empresa_38,CL,Santiago,Tecnología,4300,negociacion,2024-11-11,True
+99,Empresa_39,MX,Monterrey,Manufactura,15000,cerrado,2024-04-02,True
+100,Empresa_40,CO,Medellín,Educación,2600,prospecto,2024-06-20,False
+
+
+101,Acme Corp,CO,Bogotá,Tecnología,4500,cerrado,2024-03-15,True
+102,Beta Inc,MX,Ciudad de México,Retail,2200,negociacion,2024-06-01,True
+103,Gamma SA,CO,Medellín,Manufactura,8100,cerrado,2024-02-28,True
+104,Delta Ltd,AR,Buenos Aires,Tecnología,1500,prospecto,2024-07-15,True
+105,Epsilon SAS,CO,Cali,Retail,950,prospecto,2024-08-01,False
+106,Zeta Corp,MX,Guadalajara,Salud,6700,negociacion,2024-05-20,True
+107,Eta Inc,CL,Santiago,Manufactura,3300,cerrado,2024-01-10,True
+108,Theta SA,CO,Bogotá,Tecnología,12000,cerrado,2024-04-05,True
+109,Iota Ltd,AR,Córdoba,Retail,800,prospecto,2024-09-01,True
+110,Kappa SAS,MX,Monterrey,Salud,5400,negociacion,2024-06-15,True
+
+111,Lambda Corp,CO,Bogotá,Tecnología,320,prospecto,2024-10-01,False
+112,Mu Inc,CL,Valparaíso,Manufactura,7800,cerrado,2024-03-22,True
+113,Nu SA,AR,Buenos Aires,Tecnología,2900,negociacion,2024-07-01,True
+115,Omicron Corp,MX,Ciudad de México,Retail,1100,prospecto,2024-08-20,True
+114,Xi Ltd,CO,Medellín,Salud,4100,cerrado,2024-02-14,True
+116,Empresa_16,CO,Bogotá,Educación,12500,prospecto,2024-05-12,True
+117,Empresa_17,AR,Buenos Aires,Energía,3400,cerrado,2024-09-23,True
+118,Empresa_18,CL,Santiago,Retail,780,negociacion,2024-11-02,False
+119,Empresa_19,MX,Monterrey,Tecnología,4500,prospecto,2024-07-19,True
+120,Empresa_20,CO,Medellín,Salud,23000,cerrado,2024-03-01,True
+
+121,Empresa_21,AR,Córdoba,Manufactura,670,negociacion,2024-12-11,False
+122,Empresa_22,CL,Valparaíso,Tecnología,18900,cerrado,2024-01-28,True
+123,Empresa_23,MX,Ciudad de México,Energía,4300,prospecto,2024-08-14,True
+124,Empresa_24,CO,Cali,Educación,9900,cerrado,2024-04-17,True
+125,Empresa_25,AR,Buenos Aires,Retail,2500,negociacion,2024-10-05,True
+126,Empresa_26,CL,Santiago,Salud,13200,prospecto,2024-06-30,False
+127,Empresa_27,MX,Guadalajara,Manufactura,810,cerrado,2024-02-18,True
+128,Empresa_28,CO,Bogotá,Tecnología,4700,negociacion,2024-09-09,True
+129,Empresa_29,AR,Rosario,Energía,5600,cerrado,2024-11-25,True
+130,Empresa_30,CL,Concepción,Retail,3200,prospecto,2024-07-07,False
+
+
+131,Empresa_31,MX,Puebla,Salud,10100,cerrado,2024-03-30,True
+132,Empresa_32,CO,Barranquilla,Educación,1800,negociacion,2024-12-01,True
+133,Empresa_33,AR,Mendoza,Tecnología,7500,prospecto,2024-05-18,True
+134,Empresa_34,CL,La Serena,Manufactura,2900,cerrado,2024-10-22,True
+135,Empresa_35,MX,Ciudad de México,Retail,13400,negociacion,2024-08-09,False
+136,Empresa_36,CO,Bogotá,Energía,6200,prospecto,2024-01-14,True
+137,Empresa_37,AR,Buenos Aires,Salud,8700,cerrado,2024-09-27,True
+138,Empresa_38,CL,Santiago,Tecnología,4300,negociacion,2024-11-11,True
+139,Empresa_39,MX,Monterrey,Manufactura,15000,cerrado,2024-04-02,True
+140,Empresa_40,CO,Medellín,Educación,2600,prospecto,2024-06-20,False
+
+141,Empresa_16,CO,Bogotá,Educación,12500,prospecto,2024-05-12,True
+142,Empresa_17,AR,Buenos Aires,Energía,3400,cerrado,2024-09-23,True
+143,Empresa_18,CL,Santiago,Retail,780,negociacion,2024-11-02,False
+144,Empresa_19,MX,Monterrey,Tecnología,4500,prospecto,2024-07-19,True
+145,Empresa_20,CO,Medellín,Salud,23000,cerrado,2024-03-01,True
+146,Empresa_21,AR,Córdoba,Manufactura,670,negociacion,2024-12-11,False
+147,Empresa_22,CL,Valparaíso,Tecnología,18900,cerrado,2024-01-28,True
+148,Empresa_23,MX,Ciudad de México,Energía,4300,prospecto,2024-08-14,True
+149,Empresa_24,CO,Cali,Educación,9900,cerrado,2024-04-17,True
+150,Empresa_25,AR,Buenos Aires,Retail,2500,negociacion,2024-10-05,True
+
+151,Empresa_26,CL,Santiago,Salud,13200,prospecto,2024-06-30,False
+152,Empresa_27,MX,Guadalajara,Manufactura,810,cerrado,2024-02-18,True
+153,Empresa_28,CO,Bogotá,Tecnología,4700,negociacion,2024-09-09,True
+154,Empresa_29,AR,Rosario,Energía,5600,cerrado,2024-11-25,True
+155,Empresa_30,CL,Concepción,Retail,3200,prospecto,2024-07-07,False
+156,Empresa_31,MX,Puebla,Salud,10100,cerrado,2024-03-30,True
+157,Empresa_32,CO,Barranquilla,Educación,1800,negociacion,2024-12-01,True
+158,Empresa_33,AR,Mendoza,Tecnología,7500,prospecto,2024-05-18,True
+159,Empresa_34,CL,La Serena,Manufactura,2900,cerrado,2024-10-22,True
+160,Empresa_35,MX,Ciudad de México,Retail,13400,negociacion,2024-08-09,False
+
+161,Empresa_36,CO,Bogotá,Energía,6200,prospecto,2024-01-14,True
+162,Empresa_37,AR,Buenos Aires,Salud,8700,cerrado,2024-09-27,True
+163,Empresa_38,CL,Santiago,Tecnología,4300,negociacion,2024-11-11,True
+164,Empresa_39,MX,Monterrey,Manufactura,15000,cerrado,2024-04-02,True
+165,Empresa_40,CO,Medellín,Educación,2600,prospecto,2024-06-20,False
+166,Empresa_16,CO,Bogotá,Educación,12500,prospecto,2024-05-12,True
+167,Empresa_17,AR,Buenos Aires,Energía,3400,cerrado,2024-09-23,True
+168,Empresa_18,CL,Santiago,Retail,780,negociacion,2024-11-02,False
+169,Empresa_19,MX,Monterrey,Tecnología,4500,prospecto,2024-07-19,True
+170,Empresa_20,CO,Medellín,Salud,23000,cerrado,2024-03-01,True
+
+171,Empresa_21,AR,Córdoba,Manufactura,670,negociacion,2024-12-11,False
+172,Empresa_22,CL,Valparaíso,Tecnología,18900,cerrado,2024-01-28,True
+173,Empresa_23,MX,Ciudad de México,Energía,4300,prospecto,2024-08-14,True
+174,Empresa_24,CO,Cali,Educación,9900,cerrado,2024-04-17,True
+175,Empresa_25,AR,Buenos Aires,Retail,2500,negociacion,2024-10-05,True
+176,Empresa_26,CL,Santiago,Salud,13200,prospecto,2024-06-30,False
+177,Empresa_27,MX,Guadalajara,Manufactura,810,cerrado,2024-02-18,True
+178,Empresa_28,CO,Bogotá,Tecnología,4700,negociacion,2024-09-09,True
+179,Empresa_29,AR,Rosario,Energía,5600,cerrado,2024-11-25,True
+180,Empresa_30,CL,Concepción,Retail,3200,prospecto,2024-07-07,False
+
+181,Empresa_31,MX,Puebla,Salud,10100,cerrado,2024-03-30,True
+182,Empresa_32,CO,Barranquilla,Educación,1800,negociacion,2024-12-01,True
+183,Empresa_33,AR,Mendoza,Tecnología,7500,prospecto,2024-05-18,True
+184,Empresa_34,CL,La Serena,Manufactura,2900,cerrado,2024-10-22,True
+185,Empresa_35,MX,Ciudad de México,Retail,13400,negociacion,2024-08-09,False
+186,Empresa_36,CO,Bogotá,Energía,6200,prospecto,2024-01-14,True
+187,Empresa_37,AR,Buenos Aires,Salud,8700,cerrado,2024-09-27,True
+188,Empresa_38,CL,Santiago,Tecnología,4300,negociacion,2024-11-11,True
+189,Empresa_39,MX,Monterrey,Manufactura,15000,cerrado,2024-04-02,True
+190,Empresa_40,CO,Medellín,Educación,2600,prospecto,2024-06-20,False
+
+
