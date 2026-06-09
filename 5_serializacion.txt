@@ -1,0 +1,34 @@
+Serializar significa convertir un objeto en memoria (como un dict, list o DataFrame) en un formato que
+ se pueda guardar en un archivo o enviar por la red, y luego poder recuperarlo exactamente igual.
+
+En nuestras practicas:
+1. De Python a JSON → con json.dump(), transformas un dict con fechas, números, etc., 
+en una cadena de texto con estructura {} que se guarda en un archivo.
+
+2. De pandas a CSV → df.to_csv() serializa un DataFrame en filas separadas por comas (texto plano).
+
+3. De pandas a Parquet → df.to_parquet() serializa en formato binario columnar, muy eficiente.
+
+¿Por qué es importante?
+🧠Persistencia – Los datos viven en RAM mientras el programa corre; serializándolos los guardas en disco para usarlos después.
+🔄️Intercambio – JSON se usa en APIs, CSV en Excel, Parquet en pipelines de datos. 
+Serializar permite que distintos sistemas entiendan la misma información.
+📋Compatibilidad – Al serializar, eliges un formato estándar que otra herramienta (otro lenguaje, base de datos, etc.) pueda leer.
+
+Ejemplo:
+En memoria (Python)               Serialización (archivo en disco)
+┌─────────────────┐                     ┌──────────────────────────────┐
+│ {"nombre": "Ana",│  ────json.dump───► │ {"nombre": "Ana",             │
+│  "edad": 30,     │                    │  "edad": 30,                  │
+│  "activo": True} │                    │  "activo": true}              │
+└─────────────────┘                     └──────────────────────────────┘
+💡True (Python) se convierte en true (JSON) → se serializa.
+💡Al leer (json.load) se recupera el diccionario original con True.
+
+Ojo: no es lo mismo que "guardar"
+Guardar un archivo binario con pickle también es serialización, pero no es legible por humanos ni seguro.
+
+En las prácticas usamos formatos estándar y legibles (JSON, CSV) o muy eficientes (Parquet), 
+que es la buena práctica en analítica de datos.
+
+®️Resumiendo: serializar = transformar objetos vivos de Python en bytes o texto que se puedan almacenar y luego reconstruir.

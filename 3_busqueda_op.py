@@ -79,6 +79,7 @@ print('QUE SOY', df.iloc[9999, 2]) # New Golda
 #* ========================================= PRUEBA DE BUSQUEDA CON ÍNDICE (O(1) esperado) =================
 columna_city = input('Ingrese el nombre de la columna donde desea realizar la busqueda: ')
 city = input('Ingrese el valor que sea buscar en la columna (Criterio de busqueda): ') #New Golda
+# TODO: QUE PASA SI EL DATO CIUDAD PASO POR USUSARIO NO EXISTE EN df?
 
 df_indexado = df.set_index(columna_city)
 print('DATAFRAME INDEX POR LA COL CITY')
@@ -105,15 +106,24 @@ print('RESULTADO !!', tiempo_index, filas_index)
 
 #* =========================================== PRUEBA DE BUSQUEDA CON FILTRO (O(n)) =================
 inicio_filtro = time.perf_counter()         #***************⏲️
-
-df[city] == city
-
+resultado_fultrado = df[ df[columna_city] == city ] # la busqueda row por row 
+fin_filtro = time.perf_counter()         #***************⏲️
+tiempo_filtrado = fin_filtro - inicio_filtro
+filas_filtardo  = len(resultado_fultrado)
 #* ================= RESULTADOS =================
 
-# print('\n\n\n*************RESULTADOS*************')
-# print(f"\n📊 Tamaño del DataFrame: {} filas")                          # 10,000
-# print(f"⚡ Tiempo con índice (O(1) esperado): {} segundos")     # 0.00163050 segundos
-# print(f"   → Filas encontradas: {}")                                  # 2
-# print(f"⚡ Tiempo con filtro (O(n) vectorizado): {} segundos") # 0.00198520 segundos
-# print(f"   → Filas encontradas: {}")                                # 2
+print('\n\n\n*************RESULTADOS*************')
+print(f"\n📊 Tamaño del DataFrame: {len(df)} filas")                          # 10,000
+print(f"⚡ Tiempo con índice (O(1) esperado): {tiempo_index} segundos")     # 0.00163050 segundos
+print(f"   → Filas encontradas: {filas_index}")                                  # 2
+print(f"⚡ Tiempo con filtro (O(n) vectorizado): {tiempo_index} segundos") # 0.00198520 segundos
+print(f"   → Filas encontradas: {filas_filtardo}")                                # 2
 
+if tiempo_index > 0: #al tardo
+    relacion = tiempo_filtrado / tiempo_index
+    if  relacion > 1:
+        print(f'\n el indice fue {relacion: .2f}  Veces mas rapido que el filtro')
+    else: 
+        print(f'\n el indice fue {relacion: .2f}  Veces MAS LENTO? (RARO pero puede pasar segun el tamano del dataser y el cahe)')
+else:
+    print('Fue inmediata')
