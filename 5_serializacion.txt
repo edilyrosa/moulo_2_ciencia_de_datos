@@ -32,3 +32,57 @@ En las prácticas usamos formatos estándar y legibles (JSON, CSV) o muy eficien
 que es la buena práctica en analítica de datos.
 
 ®️Resumiendo: serializar = transformar objetos vivos de Python en bytes o texto que se puedan almacenar y luego reconstruir.
+
+
+
+
+
+***********************📊 Métodos de serialización de Pandas (to_*)
+Formatos Generales / Intercambio
+to_csv()	Valores separados por comas, legible por humanos, universal
+to_json()	JavaScript Object Notation, amigable para web/APIs
+to_excel()	Formato Microsoft Excel (.xlsx, .xls)
+to_xml()	Formato XML
+to_html()	Tabla HTML para páginas web
+
+***********************Alto Rendimiento / Formatos Binarios
+to_parquet()	Almacenamiento columnar, alta compresión, rápido, ecosistema Apache
+to_feather()	Lectura/escritura extremadamente rápida, compatible con R
+to_pickle()	Serialización Python nativa (NO seguro para fuentes desconocidas)
+
+***********************Bases de Datos
+to_sql()	Escribe a tablas SQL (SQLite, PostgreSQL, MySQL, etc.)
+to_hdf()	Formato HDF5 para datos científicos/multidimensionales
+
+
+***********************Formatos de Programación / Documentación
+to_dict()	Convierte a diccionario de Python
+to_numpy()	Convierte a array NumPy
+to_list()	Convierte a lista de Python
+to_markdown()	Tabla en formato Markdown
+to_latex()	Tabla en formato LaTeX
+to_clipboard()	Copia al portapapeles del sistema
+
+********************Formatos Específicos de Software
+to_stata()	Formato Stata (.dta)
+to_spss()	Formato SPSS (.sav)
+to_sas()	Formato SAS (.sas7bdat)
+to_gbq()	Google BigQuery
+to_records()	Convierte a array de registros NumPy
+
+******************************🎯 Recomendación rápida
+Si quieres...	                      Usa...
+Compartir con Excel	                to_excel()
+Compartir con cualquier programa	to_csv()
+Máxima velocidad	                to_feather()
+Mínimo tamaño de archivo	        to_parquet()
+Guardar para Python después	        to_pickle()
+Enviar vía API web	                to_json()
+Crear reporte HTML	                to_html()
+
+
+
+****************************Regla general de Pandas:
+Tipo de método	                            Retorna                         	       Ejemplo
+to_formato() (serializar/exportar)	   None (o True/False en algunos casos)	    df.to_csv(), df.to_excel(), df.to_parquet(), df.to_json()
+read_formato() (importar/leer)	       DataFrame	                            pd.read_csv(), pd.read_excel(), pd.read_parquet(), pd.read_json()

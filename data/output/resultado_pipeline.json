@@ -1,0 +1,43 @@
+{
+    "ejecutado_en": "2026-06-15T20:33:21.188758",
+    "activo": true,
+    "pipeline": "crm_analytics, después, tamaño",
+    "version": "1.0",
+    "fuentes": [
+        {
+            "nombre": "clientes",
+            "tipo": "csv",
+            "ruta": "data/raw/clientes.csv",
+            "encoding": "utf-8"
+        },
+        {
+            "nombre": "transacciones",
+            "tipo": "csv",
+            "ruta": "data/raw/transacciones.csv",
+            "encoding": "utf-8"
+        }
+    ],
+    "filtros": {
+        "valor_minimo": 1000,
+        "etapas_validas": [
+            "prospecto",
+            "negociacion",
+            "cerrado"
+        ],
+        "paises_activos": [
+            "CO",
+            "MX",
+            "CL",
+            "AR"
+        ]
+    },
+    "output": {
+        "formato": "parquet",
+        "ruta": "data/processed/",
+        "compresion": "snappy"
+    },
+    "notificaciones": {
+        "email": "analytics@empresa.com",
+        "alertar_si_registros_menor_a": 5
+    }
+}
