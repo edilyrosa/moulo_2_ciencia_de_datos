@@ -270,9 +270,12 @@ def exportar_reporte_csv(df: pd.DataFrame, ruta: Path) -> None:
 reporte = (
     df_tipado
     .query(" etapa == 'cerrado' and activo == True ")
-    [ ["id", "nombre", "pais", "industria", "fecha_cierre" ,"fecha_cierre"] ]
-    # .sort_values("valor_contrato", ascending=False) #TODO⚠️
+    # [ ["id", "nombre", "pais", "industria", "fecha_cierre" ,"fecha_cierre"] ]
+    #*Para ordenar por columna, debe existir. ✅
+    [ ["id", "nombre", "pais", "industria", "valor_contrato" ,"fecha_cierre"] ] 
+    .sort_values("valor_contrato", ascending=False) #TODO⚠️ 
     .reset_index(drop=True)
+    
 )
 ruta_reporte  = OUTPUT_DIR / 'reporte_clientes_cerrados.csv'
 exportar_reporte_csv(reporte, ruta_reporte)
@@ -323,40 +326,67 @@ ruta_csv_largo = RAW_DIR /'sample-csv-10000-rows.csv'
 ruta_parquet = RAW_DIR /'clientes.parquet'
 
 pd_csv_largo = pd.read_csv(ruta_csv_largo)
-pd_csv_largo.to_parquet(
-    ruta_parquet,
-    compression='snappy',
+pd_csv_largo.to_parquet(  # df a SERIALIZAR como parquet
+    ruta_parquet,         # Ruta del parquet
+    compression='snappy', #⭐ Comprime Archivo grande, Lectura/escritura más rápida, Ocupa más disco
+    engine='pyarrow',     #⭐ Motor usa pandas para leer/escribir Parquet.
     index=False
 )
 
+# TODO: *************************LO QUE FALTO 
+
+#* ------------ Comparando el tamano de ambos (CSV vs. Parquet)
+tamaño_csv     = ruta_csv_largo.stat().st_size
+tamaño_parquet = ruta_parquet.stat().st_size
+print(f"\nArchivo original (CSV)   : {tamaño_csv:,} bytes")
+print(f"Archivo comprimido (parquet): {tamaño_parquet:,} bytes")
+print(f"Reducción de tamaño      : {(1 - tamaño_parquet/tamaño_csv)*100:.0f}%")  # Redondea
+
+#* --- Leer Parquet completo ---
+df_leido = pd.read_parquet(ruta_parquet)
+print(f"\nLeído desde Parquet: {len(df_leido)} filas")
+print(f"Tipos preservados  :") #?Si tu serializas un TDD time, eso mismo recuperas. 
+print(df_leido.dtypes.to_string())
+print(df_leido[ ["name", "email", "city"] ].head()) 
+
+    
+#* --- Leer solo columnas necesarias (enorme ventaja en big data) ---
+# En un archivo de 50 columnas, esto lee solo 3 → mucho más rápido
+df_solo_cols = pd.read_parquet(
+    ruta_parquet,
+    columns=["name", "email", "city"]
+)
+print(f"\nSolo columnas de interés:")
+# print(df_solo_cols.to_string(index=False)) #!muy largo
+print(df_solo_cols.head()) #!muy largo
+print(f"\nParquet guardado: {ruta_parquet}")
 
 
 
 
+## ─────────────────────────────────────────────────────────
+#* PARTE 4: Comparación — cuándo usar cada formato
+# ─────────────────────────────────────────────────────────
 
-# ## ─────────────────────────────────────────────────────────
-# #* PARTE 4: Comparación — cuándo usar cada formato
-# # ─────────────────────────────────────────────────────────
+print("\n\n\n" + "=" * 55)
+print("PARTE 4: Guía de decisión de formatos")
+print("=" * 55)
 
-# print("\n\n\n" + "=" * 55)
-# print("PARTE 4: Guía de decisión de formatos")
-# print("=" * 55)
+guia = [
+    ("JSON",    "APIs, configs, datos anidados",         "❌ analítica tabular grande"),
+    ("CSV",     "Reportes a personas, Excel, intercambio","❌ pipelines internos"),
+    ("Parquet", "Pipelines, big data, entre pasos ETL",  "❌ reportes a no-técnicos"),
+]
 
-# guia = [
-#     ("JSON",    "APIs, configs, datos anidados",         "❌ analítica tabular grande"),
-#     ("CSV",     "Reportes a personas, Excel, intercambio","❌ pipelines internos"),
-#     ("Parquet", "Pipelines, big data, entre pasos ETL",  "❌ reportes a no-técnicos"),
-# ]
+print(f"\n{'Formato':<10} {'Úsalo para':<40} {'No uses para'}")
+print("-" * 80)
+for fmt, usar, no_usar in guia:
+    print(f"{fmt:<10} {usar:<40} {no_usar}")
 
-# print(f"\n{'Formato':<10} {'Úsalo para':<40} {'No uses para'}")
-# print("-" * 80)
-# for fmt, usar, no_usar in guia:
-#     print(f"{fmt:<10} {usar:<40} {no_usar}")
-
-# print("\n" + "=" * 55)
-# print("¡Lección 4 completada!")
-# print("Archivos generados:")
-# print(f"  {OUTPUT_DIR}/resultado_pipeline.json")
-# print(f"  {OUTPUT_DIR}/reporte_clientes_cerrados.csv")
-# print(f"  {PROCESSED_DIR}/clientes.parquet  (si pyarrow instalado)")
-# print("=" * 55)
+print("\n" + "=" * 55)
+print("¡Lección 4 completada!")
+print("Archivos generados:")
+print(f"  {OUTPUT_DIR}/resultado_pipeline.json")
+print(f"  {OUTPUT_DIR}/reporte_clientes_cerrados.csv")
+print(f"  {PROCESSED_DIR}/clientes.parquet  (si pyarrow instalado)")
+print("=" * 55)

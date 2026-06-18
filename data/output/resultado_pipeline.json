@@ -1,5 +1,5 @@
 {
-    "ejecutado_en": "2026-06-15T20:33:21.188758",
+    "ejecutado_en": "2026-06-17T19:13:41.698024",
     "activo": true,
     "pipeline": "crm_analytics, después, tamaño",
     "version": "1.0",
