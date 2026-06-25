@@ -9,9 +9,10 @@ RAIZ = Path(__file__).parent
 RAW_DIR = RAIZ / "data" / "raw"
 PROCESSED_DIR = RAIZ / "data" / "processed"
 CSV_PATH = RAW_DIR / "sample-csv-10000-rows.csv"         #* ← Usaremos este
-
+    
 print(f"✓ Archivo encontrado: {CSV_PATH.name}")         # Nombre + extension ( .stem, .suffix)     # Nombre + extension ( .stem, .suffix)
 print(f"✓ Tamanio en disco: {(CSV_PATH.stat().st_size / 1024**2):.2f} MB")         # Nombre + extension ( .stem, .suffix)     # Nombre + extension ( .stem, .suffix)
+tamaño_disco_mb = CSV_PATH.stat().st_size / 1024**2 #TODO
 
 
 # ============================================================
@@ -40,9 +41,12 @@ memoria_normail_mb = memoria_normail_bytes  / 1024**2 # despues para comparacion
 #* IV ----------------------------- 📊 ANALIZA TU DATA EN PY
 # FILTRAR FILAS POR "age" > 40
 # df_filtrado = df_a_ser_filtrado[ serie bool, retuen de solo los True]  
-df_mayores_40 = df_completo[ df_completo['age'] > 40 ]
+# df_mayores_40 = df_completo[ df_completo['city'] > 40 ]
 # df_mayores_40 = df_completo[ df_completo.age > 40 ] #⚠️ puede ocurrir error por el nombre de la col
-# df_mayores_40 = df_completo[ df_completo.loc[:, 'age'] > 40 ]
+df_mayores_40 = df_completo[ df_completo.loc[:, 'age'] > 40 ]
+
+print('aqui', df_mayores_40.dtypes.to_string()) #* ... age → int64, entonces df_completo['age'] > 40 ✅
+
 
 #? seleccionamos solol algunas col
 df_reporte = df_mayores_40[ ['name', 'age', 'city'] ]  #⭐💡
@@ -112,7 +116,7 @@ for i, chunk in enumerate(pd.read_csv(CSV_PATH, chunksize=CHUNK_SIZE)):
 
     #* IV ----------------------------- 📊 ANALIZA TU DATA EN PY
     chunk_reporte = chunk.loc[ chunk['age'] > 40 , ['name', 'age', 'city'] ]
-    total_filas_filtradas =+ len(chunk_reporte)
+    total_filas_filtradas += len(chunk_reporte)
 
 # SERIALIZACION POR CHUNKS
     if len(chunk_reporte) > 0: #si hay reporte
@@ -158,15 +162,17 @@ print('\n\n\n\n')
 # Solo si el DataFrame que quieres escribir es MUY GRANDE.
 # para escribir el DataFrame en lotes y así reducir el pico de uso de memoria durante la escritura.
 # Escribe de a 500,000 filas por vez
+
 #TODO: Practicalo: df.to_csv('archivo_grande.csv', index=False, chunksize=500_000) → 500000	== 500_000, el _ es un eparador visual
 # El resultado final es un solo archivo CSV, pero el proceso de escritura es más eficiente en memoria.
 
-# print(f"\n📊 RESULTADOS CHUNKING:")
-# print(f"  Filas procesadas      : {}")          
-# print(f"  Clientes > 40 años    : {}")          
-# print(f"  ⏱️  Tiempo total        : {tiempo_chunking} segundos")   
-# print(f"  💾 Memoria RAM (máxima): {ran} MB")        
-# print(f"  📁 Reporte guardado en : {}")                  
+
+print(f"\n📊 RESULTADOS CHUNKING:")
+print(f"  Filas procesadas      : {total_filas_procesadas}")          
+print(f"  Clientes > 40 años    : {total_filas_filtradas}")          
+print(f"  ⏱️  Tiempo total        : {tiempo_chunking} segundos")   
+print(f"  💾 Memoria RAM (máxima): {ram_max_chunk_mb} MB")        
+print(f"  📁 Reporte guardado en : {salida_chunk}")                  
 
 
 # ============================================================
@@ -178,39 +184,42 @@ print("PARTE 3: COMPARATIVA DE CONSUMO")
 print("=" * 55)
 
 #? Calcular porcentajes
+ahorro_ram        = memoria_normail_mb - ram_max_chunk_mb
+porcentaje_ram    = (ram_max_chunk_mb / memoria_normail_mb) * 100
+porcentaje_tiempo = (tiempo_chunking  / tiempo_normal)     * 100
+
 
 #* {cifra :>14.2f} ←  alineado a la derecha, ancho de 14 caracteres, 2 decimales
 #* {cifra :>14,}  14 espacios, alineado a la derecha, con comas como separador de miles
-# print(f"""
-# ┌────────────────────────────────────────────────────────────────┐
-# │                    COMPARATIVA DE CONSUMO                      │
-# ├──────────────────────────┬─────────────────┬───────────────────┤
-# │ MÉTRICA                  │ CARGA NORMAL    │ CHUNKING          │
-# ├──────────────────────────┼─────────────────┼───────────────────┤
-# │ Archivo en disco (MB)    │ {tamaño_disco_mb:>14.2f}  │ {tamaño_disco_mb:>13.2f}     │ 
-# │ ⏱️  Tiempo (segundos)     │ {tiempo_normal:>14.4f}  │ {tiempo_chunking:>13.4f}     │
-# │ 💾 RAM usada (MB)        │ {memoria_normal_mb:>14.2f}  │ {ram_max_chunk_mb:>13.2f}     │
-# │ Filas en memoria         │ {len_df_completo:>14,}  │ {CHUNK_SIZE:>13,}     │
-# │ Clientes > 40 años       │ {clientes_filtrados_normal:>14,}  │ {total_filas_filtradas:>13,}     │
-# ├──────────────────────────┼─────────────────┼───────────────────┤
-# │ AHORRO DE RAM            │        -        │  {ahorro_ram:>8.2f} MB      │
-# │ REDUCCIÓN DE RAM         │        -        │     {100 - porcentaje_ram:>8.1f}%     │
-# │ INCREMENTO DE TIEMPO     │        -        │     {porcentaje_tiempo - 100:>8.1f}%     │
-# └──────────────────────────┴─────────────────┴───────────────────┘
+print(f"""
+┌────────────────────────────────────────────────────────────────┐
+│                    COMPARATIVA DE CONSUMO                      │
+├──────────────────────────┬─────────────────┬───────────────────┤
+│ MÉTRICA                  │ CARGA NORMAL    │ CHUNKING          │
+├──────────────────────────┼─────────────────┼───────────────────┤
+│ Archivo en disco (MB)    │ {tamaño_disco_mb:>14.2f}  │ {tamaño_disco_mb:>13.2f}     │ 
+│ ⏱️  Tiempo (segundos)     │ {tiempo_normal:>14.4f}  │ {tiempo_chunking:>13.4f}     │
+│ 💾 RAM usada (MB)        │ {memoria_normail_mb:>14.2f}  │ {ram_max_chunk_mb:>13.2f}     │
+│ Filas en memoria         │ {len_df_completo:>14,}  │ {CHUNK_SIZE:>13,}     │
+│ Clientes > 40 años       │ {clintes_filtrados_normal:>14,}  │ {total_filas_filtradas:>13,}     │
+├──────────────────────────┼─────────────────┼───────────────────┤
+│ AHORRO DE RAM            │        -        │  {ahorro_ram:>8.2f} MB      │
+│ REDUCCIÓN DE RAM         │        -        │     {100 - porcentaje_ram:>8.1f}%     │
+│ INCREMENTO DE TIEMPO     │        -        │     {porcentaje_tiempo - 100:>8.1f}%     │
+└──────────────────────────┴─────────────────┴───────────────────┘
 
-# 📊 ANÁLISIS DE EFICIENCIA:
-#   • RAM: Chunking usa solo {porcentaje_ram:.1f}% de la RAM (ahorro de {ahorro_ram:.2f} MB)
-#   • Tiempo: Chunking es {tiempo_chunking/tiempo_normal:.1f}x más lento
-#   • Escalabilidad: Puedes procesar archivos {factor_escalabilidad}x más grandes sin colapsar
-# """)
+📊 ANÁLISIS DE EFICIENCIA:
+  • RAM: Chunking usa solo {porcentaje_ram:.1f}% de la RAM (ahorro de {ahorro_ram:.2f} MB)
+  • Tiempo: Chunking es {tiempo_chunking/tiempo_normal:.1f}x más lento
+""")
 
 
-# print("\n" + "=" * 55)
-# print("✅ LECCIÓN 6 COMPLETADA - REPORTE DE CLIENTES > 40 AÑOS")
-# print("=" * 55)
-# print(f"\n📁 Archivos generados:")
-# print(f"  - {salida_normal.name} (carga normal)")
-# print(f"  - {salida_chunk.name} (chunking)")
+print("\n" + "=" * 55)
+print("✅ LECCIÓN 6 COMPLETADA - REPORTE DE CLIENTES > 40 AÑOS")
+print("=" * 55)
+print(f"\n📁 Archivos generados:")
+print(f"  - {salida_normal.name} (carga normal)")
+print(f"  - {salida_chunk.name} (chunking)")
 
 
 # TODO TAREA: PARQUET TAMBIÉN SOPORTA CHUNKS?

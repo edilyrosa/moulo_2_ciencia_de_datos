@@ -267,9 +267,9 @@ def exportar_reporte_csv(df: pd.DataFrame, ruta: Path) -> None:
         sep=','  
     ) 
 
-reporte = (
+reporte = ( #Sin paréntesis, Python no permite saltos de línea así.
     df_tipado
-    .query(" etapa == 'cerrado' and activo == True ")
+    .query(" etapa == 'cerrado' and activo == True ") # query. ← Retorna DataFrame filtrado
     # [ ["id", "nombre", "pais", "industria", "fecha_cierre" ,"fecha_cierre"] ]
     #*Para ordenar por columna, debe existir. ✅
     [ ["id", "nombre", "pais", "industria", "valor_contrato" ,"fecha_cierre"] ] 

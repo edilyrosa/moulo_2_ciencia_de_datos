@@ -1,0 +1,211 @@
+
+¿QUÉ ES UN PIPELINE EN DATA SCIENCE?
+Es una cadena de procesos automatizados que transforma datos crudos → información lista para análisis o modelos.
+
+ESTRUCTURA TÍPICA DE UN PIPELINE
+DATOS CRUDOS → LIMPIEZA → TRANSFORMACIÓN → ANÁLISIS → REPORTE/MODELO
+   (CSV)       (filtros)   (agregaciones)   (EDA)      (insights)
+
+EJEMPLO CONCRETO
+# Pipeline de clientes
+1. Leer CSV raw/clientes.csv
+2. Filtrar activos y con contrato > $1000
+3. Calcular métricas (edad promedio, top ciudades)
+4. Guardar reporte en processed/clientes_filtrados.csv
+5. Enviar alerta si hay < 100 registros
+Registrar QUÉ pasó, CUÁNDO y POR QUÉ en cada etapa del proceso.
+
+¿QUÉ SE LOGUEA?
+Todo lo que pasa y manejando los errores con mensajes claros.
+
+Nivel                         Cuándo usarlo                                         Ejemplo
+DEBUG                         Detalles internos, solo para desarrollo       "Chunk 4: 500 filas procesadas"
+INFO                          Pasos normales del proceso                    "Cargados 10,000 registros"
+WARNING                       Algo raro, pero el proceso sigue              "Columna 'city' tiene 50% nulos"
+ERROR                         Algo falló, puede continuar                   "No se pudo calcular métrica X"
+CRITICAL                      Fallo grave, hay que detener todo             "Base de datos caída, deteniendo"
+
+
+2026-06-20 15:30:45 | INFO | pipeline_crm | INICIO: cargando clientes.csv
+2026-06-20 15:30:45 | INFO | pipeline_crm | ✓ Cargados 10,000 registros
+2026-06-20 15:30:46 | ERROR | pipeline_crm | Columna 'edad' no encontrada
+2026-06-20 15:30:46 | ERROR | pipeline_crm | Columnas presentes: ['id', 'nombre', 'age', 'city']
+2026-06-20 15:30:46 | ERROR | pipeline_crm | El archivo tiene 'age' pero el código espera 'edad'
+¡El problema se detecta en 2 segundos! ✅
+
+💡 RESUMEN LACÓNICO
+Pipeline = cadena de transformación de datos
+Logs = bitácora de cada paso del pipeline
+Propósito = saber QUÉ pasó, CUÁNDO y POR QUÉ
+
+
+**************************** Parte 1 — Configurar el logger
+
+def crear_logger(nombre: str) -> logging.Logger:
+Esta función crea un sistema de registro que escribe en dos lugares al mismo tiempo:
+# Consola → solo mensajes INFO en adelante (lo que ves en pantalla)
+# Archivo .log → todo desde DEBUG (el registro completo guardado en disco)
+
+
+
+**************************** Parte 2 — EXCEPCIONES PERSONALIZADAS
+Las haremos clases que hereden de exception, para pasar el mensaje de error descriptivo.
+class PipelineError(Exception): ... Personalizada, NO de PY.
+class ArchivoNoEncontradoError(PipelineError): ...
+class DatosInvalidosError(PipelineError): ...
+class ColumnaFaltanteError(PipelineError): ...
+
+Entonces las clases hijas heredan de PipelineError, que a su vez hereda de Exception. 
+Creas tu propia jerarquía de errores.
+Exception                        ← clase base de Python
+    └── PipelineError            ← tu clase base personal (vacía, solo agrupa)
+            ├── ArchivoNoEncontradoError
+            ├── DatosInvalidosError
+            ├── ColumnaFaltanteError
+            └── TipoIncompatibleError
+
+🎯 ¿POR QUÉ CREAR EXCEPCIONES PROPIAS?
+Beneficio	                  Ejemplo
+Semántica clara	         raise ArchivoNoEncontradoError('mensaje') vs raise Exception('mensaje')
+Captura selectiva	         except ColumnaFaltanteError e: acceso a "e"
+Mensajes específicos	      TipoIncompatibleError(columna="edad", ...)
+
+# Ejemplo de uso:
+    # ── Caso 2: archivo inexistente ───────────────────────
+    try:
+        ruta_fantasma = RAW_DIR / "archivo_inexistente.csv"
+        if not ruta_fantasma.exists():
+            log.error(f"Archivo no encontrado: {ruta_fantasma}")
+            # 1️⃣ Lanzas la excepción con mensaje
+            raise ArchivoNoEncontradoError(f"No existe: {ruta_fantasma}")
+   
+   # 2️⃣ Capturas y obtienes el mensaje en e
+    except ArchivoNoEncontradoError as e:
+        log.error(f"No se pudo continuar: {e}")
+        print(f"\nError manejado correctamente: {e}")
+
+🎯 DIFERENCIA CLAVE ENTRE: raise Vs. except
+Concepto	      Qué hace	                   Cuándo usar
+raise	         LANZA una excepción	       Cuando detectas un error y quieres notificarlo
+except	      CAPTURA una excepción	    Cuando quieres manejar un error y recuperarte o loguearlo
+
+
+📊 DETALLE TÉCNICO
+raise ValueError("mensaje")   
+             ↑
+     Este string va al constructor de ValueError
+     y se guarda internamente
+
+except ValueError as e:
+                    ↑
+     "e" es el objeto excepción
+     str(e) devuelve el mensaje
+     print(e) llama a str(e) automáticamente
+
+
+📊 EXCEPCIÓN = OBJETO + MENSAJE + COMPORTAMIENTO
+raise ValueError("mensaje")  # ← Es un OBJETO de tipo ValueError
+# ✅ Es un objeto con:
+# - Tipo: ValueError (clase)
+# - Mensaje: "mensaje" (atributo)
+# - Traceback: dónde ocurrió
+# - Métodos: str(), args, etc.
+
+
+
+
+
+
+
+
+
+
+
+
+#? 3. Formato unificado para cada línea de log: fecha | nivel | nombre | mensaje
+    # %	             → Indica que es un placeholder (variable a reemplazar), Python ve % y sabe: "aquí va un valor"
+    # s	             → String → convierte el valor a texto. Otro: %(precio).2f | %(edad)d → entero ...
+    # "%(asctime)s"  →  Toma la variable 'asctime' y la convierte a string. PARÉNTESIS SON OBLIGATORIOS.
+    # -8s            → Alinea  el nivel a la izquierda en 8 espacios de caracteres, para que las columnas queden rectas
+    # datefmt        → Formato de la fecha. E.g: %Y-%m-%d %H:%M:%S, "%A %d de %B de %Y", → %A	Día de la semana (completo)
+    formato = logging.Formatter(
+        fmt="%(asctime)s | %(levelname)-8s | %(name)s | %(message)s",
+        datefmt="%Y-%m-%d %H:%M:%S",
+        style='%' # '%' (por defecto), '{', '$'
+            # Con style='%' (default)
+            # fmt="%(asctime)s | %(levelname)s"
+                # # Con style='{'
+                # fmt="{asctime} | {levelname:<8}"  # ← :<8 = alinear izquierda 8 chars
+                    # # Con style='$'
+                    # fmt="$asctime | $levelname"
+    )
+
+
+
+
+
+class PipelineError(Exception): # Esta excepción es personalizada, NO de PY.
+    """Clase base para todos los errores del pipeline. 
+    Agrupa las 4 excepciones hijas bajo un nombre común,
+    permitiendo capturarlas todas con un solo except."""
+    pass
+
+class ArchivoNoEncontradoError(PipelineError):
+    """
+    El archivo de entrada no existe en la ruta especificada.
+    Nivel de log sugerido: ERROR
+    """
+    pass
+
+class DatosInvalidosError(PipelineError):
+    """
+    El archivo existe pero sus datos no son utilizables.
+    Ejemplo: CSV vacío, archivo corrupto.
+    Nivel de log sugerido: ERROR
+    """
+    pass
+
+class ColumnaFaltanteError(PipelineError):
+    """
+    El DataFrame no contiene una columna requerida para la operación.
+    Nivel de log sugerido: ERROR
+    """
+    pass
+
+class TipoIncompatibleError(PipelineError):
+    """Se intentó una operación con un tipo de dato incorrecto.
+
+    Ocurre cuando:
+    - Se compara una columna string con un número → df['city'] > 40
+    - Se aplica una operación matemática a texto  → df['nombre'] * 2
+    - El origen de datos cambió el tipo de columna sin aviso
+
+    A diferencia de las otras excepciones, esta está desarrollada
+    con atributos propios para que el log pueda registrar información
+    estructurada: qué columna falló, qué tipo tenía y qué se esperaba.
+    Esto permite diagnósticos más precisos sin abrir el CSV.
+
+    Atributos:
+        columna       : nombre de la columna con el problema
+        tipo_real     : dtype que tiene la columna en el DataFrame
+        tipo_esperado : dtype que el pipeline necesitaba"""
+    
+    #? 1. Constructor personalizado
+    #* al lanzar esta exception, le pasamos como argumento los datos 
+    #* necesarios par construir el mensaje descriptivo → str(e)
+    def __init__(self, columna: str, tipo_real: str, tipo_esperado: str):
+        self.columna       = columna
+        self.tipo_real     = tipo_real
+        self.tipo_esperado = tipo_esperado
+
+        #? 2.  Construimos e mensaje descriptivo de esta excepcion con los atributos 
+        mensaje = (
+            f"Columna '{columna}' tiene tipo '{tipo_real}', "
+            f"se esperaba '{tipo_esperado}'.\n"
+            f"¿Cambió el origen de datos? Verifica el CSV de entrada."
+        )
+        #? 3. pasa el mensaje a Exception para que str() funcione
+        super().__init__(mensaje)  
+            # except TipoIncompatibleError as e:
+                # str(e)  # ← Retorna el texto pasado en super().__init__('aqui')
+                            # NO todos los argumentos pasados al constructor de la exeption al lanzarla.
