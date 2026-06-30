@@ -4,11 +4,20 @@
 import pandas as pd
 from pathlib import Path
 import time                                            # time.time() retorna el timestamp Unix
+from errores_logging import (
+    crear_logger, 
+    validar_columnas,
+    validar_tipo_columna,
+    ArchivoNoEncontradoError,
+    DatosInvalidosError,
+    ColumnaFaltanteError,
+    TipoIncompatibleError
+    )
 
-#? 1. Importamos el arch de log
-from errores_logging import (crear_logger, ArchivoNoEncontradoError)
-log = crear_logger('archivos_grandes_test')
-
+# =============================================================
+#* CONFIG DEL LOG 
+# # =============================================================
+log = crear_logger('pipeline_archivos_grandes')
 
 
 RAIZ = Path(__file__).parent
@@ -30,12 +39,30 @@ print(f"✓ Tamanio en disco: {(CSV_PATH.stat().st_size / 1024**2):.2f} MB")    
 tamaño_disco_mb = CSV_PATH.stat().st_size / 1024**2 #TODO
 
 
+
+
 # ============================================================
-#* PARTE 1: CARGA NORMAL (todo a la vez)
+#* FUNCIONES INTERMEDIAS
 # ============================================================
 print("\n" + "=" * 55)
 print("PARTE 1: CARGA NORMAL (todo a la vez)")
 print("=" * 55)
+
+def cargar_y_validar_csv(ruta:Path, log) -> pd.DataFrame:
+    try:
+        log.info(f'Cargando el archivo {ruta.name}')
+        df = pd.read_csv(ruta) 
+        validar_columnas(df, 'age', int, log)
+        validar_tipo_columna()
+        # query(df['age'] >40)
+    except:
+        pass
+        
+
+
+
+
+
 
 #* I--------------------------------⏲️ MEDIMOS TIEMPO TOTAL
 inicio_normal = time.time()

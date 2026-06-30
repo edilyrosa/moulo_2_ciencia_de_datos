@@ -203,7 +203,7 @@ class DatosInvalidosError(PipelineError):
 
 class ColumnaFaltanteError(PipelineError):
     """
-    El DataFrame no contiene una columna requerida para la operación.
+    El DataFrame no contiene la(s) columna(s) requerida(s) para la operación.
     Nivel de log sugerido: ERROR
     """
     pass
@@ -258,8 +258,6 @@ class TipoIncompatibleError(PipelineError):
 # edily =  Cliente('20eee12', 'Edily Mora', 100)
 # edily.retiro(50)
 
-
-
 # ─────────────────────────────────────────────────────────
 #* PARTE 3: Funciones de validación puras
 #   - No contienen lógica de negocio (no saben qué es un "cliente")
@@ -277,4 +275,49 @@ def validar_columnas(df: pd.DataFrame, columnas_requeridas: list, log:logging.Lo
     faltantes = set(columnas_requeridas) - set(df.columns)
     if faltantes:
         log.error(f'Columnas faltrantes {sorted(faltantes)}')
-        pass
+        log.error(f'Columnas presentes en el DF {sorted(df.columns.tolist())}')
+        # df.columns → Index(['id', 'name', ..])
+        # df.columns.toList() → ['id', 'name', ..]
+        raise ColumnaFaltanteError( #!esto significa q cuando9 llamenos a esta func necesitaremos try/except
+            f'Columnas faltrantes {sorted(faltantes)}\n'
+            f'Columnas presentes en el DF {sorted(df.columns.tolist())}'
+        )
+    log.debug('√ Todas las columnas requeridas estan presentes !!')
+
+#* verificara que determinada col tenga determinado TDD antes de relaizar operacion
+def validar_tipo_columna(df:pd.DataFrame, columna:str, tipo_esperado:type, log:logging.Logger) -> None:
+    
+    #? 1. verificamos que la columna exita
+    if columna not in df.columns:
+        log.error(f'La Columna {columna} no existe en DF - ') #!Notifico!!
+        log.error(f'Columnas presentes en el DF {sorted(df.columns.tolist())}')
+        raise ColumnaFaltanteError( #!laz
+            f'La Columna {columna} no existe en DF - '
+            f'Columnas presentes en el DF {sorted(df.columns.tolist())}'
+        )
+    # int, float... → pandas int64
+    #? 2. dict de los tdd en py iq con lols tdd Pndas
+    mapa_tipos = {
+        int: ['int64', 'int32', 'int16'], #TODO INVESG la dif enter estos.
+        float: ['float64', 'float32'],#TODO INVESG la dif enter estos.
+        str:['object'],
+        bool:['bool']
+    }
+    
+    #?3. capturamos el tdd del dato esperado y compramaos con el que trae el DF
+    tipos_validos = mapa_tipos.get(tipo_esperado, [])
+    tipo_real = str(df[columna].dtype)
+    
+    if tipo_real not in tipos_validos:
+        log.error(
+            f'El TDD en {columna} - '
+            f'El esperado es {tipo_esperado.__name__} y el encontrado en el DF es {tipo_real} '
+        )
+        # raise TipoIncompatibleError(columna:str, tipo_real:str, tipo_esperado:str)
+        raise TipoIncompatibleError(
+            columna = columna, 
+            tipo_real = tipo_real, 
+            tipo_esperado = tipo_esperado.__name__
+            )
+    #?4. informamos de los logs
+    log.debug(f'√ Columna "{columna}" tiene TDD Correcto {tipo_real}')
